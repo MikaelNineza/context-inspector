@@ -1,0 +1,16 @@
+[project]
+name = "context-inspector"
+version = "0.1.0"
+description = "Document Q&A (RAG) app with an LLM context inspector"
+readme = "README.md"
+authors = [
+    { name = "MikaelNineza", email = "mikael.nineza@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.162.0",
+    "psycopg[binary]>=3.3.8",
+    "pydantic-settings>=2.16.2",
+    "sqlalchemy>=2.1.8",
+    "uvicorn>=0.54.0",
+]
