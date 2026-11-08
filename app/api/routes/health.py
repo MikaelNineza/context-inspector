@@ -1,5 +1,6 @@
 from app.schemas.health import HealthResponse
 from fastapi import APIRouter
+from app.core.db import database_status
 
 router = APIRouter(
     prefix="/health",
@@ -7,5 +8,8 @@ router = APIRouter(
 )
 
 @router.get("", response_model=HealthResponse)
-async def health_check():
-    return {"status": "ok"}
+def health_check():
+    return {
+        "status": "ok",
+        "database": database_status()
+    }
