@@ -2,7 +2,7 @@
 name = "context-inspector"
 version = "0.1.0"
 description = "Document Q&A (RAG) app with an LLM context inspector"
-readme = "README.md"
+readme = "../README.md"
 authors = [
     { name = "MikaelNineza", email = "mikael.nineza@gmail.com" }
 ]
