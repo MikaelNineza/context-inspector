@@ -1,40 +1,31 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-
-type Health = {
-  status: string;
-  database: string;
-};
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { useState, useEffect } from 'react';
+import { api, type HealthResponse} from "./api/client";
+import './App.css';
 
 function App() {
-  const [health, setHealth] = useState<Health | null>(null);
+  const [health, setHealth] = useState<HealthResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
-    const checkBacked = async () => {
-      try {
-        const response = await fetch(`${API_URL}/health`);
-        if(!response.ok) {
-          throw new Error("Couldn't connect to server");
+    api.GET("/health").then(({data, response }) => {
+        if (!isMounted) {
+          return;
         }
 
-        const healthStatus: Health = await response.json();
-        if (isMounted) {
-          setHealth(healthStatus);
+        if (data) {
+          setHealth(data);
+        } else {
+          setError(`Error: HTTP ${response.status}`);
         }
-      } catch (err) {
+      })
+      .catch((err: unknown) => {
         if (isMounted) {
-          setError(
-            err instanceof Error ? err.message : "Something went wrong"
-          );
-        }
+        setError(
+          err instanceof Error ? err.message : "Something went wrong"
+        );
       }
-    };
-
-    checkBacked();
+      });
 
     return () => {
       isMounted = false;
